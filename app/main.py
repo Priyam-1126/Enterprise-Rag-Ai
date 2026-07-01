@@ -26,3 +26,11 @@ app.include_router(router)
 app.include_router(upload_router)
 app.include_router(chat_router)
 
+@app.get("/")
+def root():
+    return {"message": "Enterprise RAG API is running"}
+
+@app.get("/health")
+def health():
+    return {"status": "healthy"}
+
