@@ -2,35 +2,29 @@ from sentence_transformers import SentenceTransformer
 
 
 class EmbeddingService:
-    """
-    Generates vector embeddings for text using
-    BAAI/bge-small-en-v1.5
-    """
-
     def __init__(self):
-        self.model = SentenceTransformer(
-            "BAAI/bge-small-en-v1.5"
-        )
+        self.model = None
 
-    def encode(self, text: str) -> list[float]:
-        embedding = self.model.encode(
+    def _get_model(self):
+        if self.model is None:
+            self.model = SentenceTransformer(
+                "BAAI/bge-small-en-v1.5"
+            )
+        return self.model
+
+    def encode(self, text: str):
+        model = self._get_model()
+        return model.encode(
             text,
             normalize_embeddings=True,
-        )
+        ).tolist()
 
-        return embedding.tolist()
-
-    def encode_batch(
-        self,
-        texts: list[str],
-    ) -> list[list[float]]:
-
-        embeddings = self.model.encode(
+    def encode_batch(self, texts):
+        model = self._get_model()
+        return model.encode(
             texts,
             normalize_embeddings=True,
-        )
-
-        return embeddings.tolist()
+        ).tolist()
 
 
 embedding_service = EmbeddingService()

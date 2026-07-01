@@ -2,30 +2,25 @@ from sentence_transformers import CrossEncoder
 
 
 class Reranker:
-
     def __init__(self):
-        self.model = CrossEncoder(
-            "BAAI/bge-reranker-base"
-        )
+        self.model = None
 
-    def rerank(
-        self,
-        question,
-        documents,
-    ):
+    def _get_model(self):
+        if self.model is None:
+            self.model = CrossEncoder(
+                "cross-encoder/ms-marco-MiniLM-L-6-v2"
+            )
+        return self.model
 
-        # Convert RowMapping -> dict
+    def rerank(self, question, documents):
         docs = [dict(doc) for doc in documents]
 
         pairs = [
-            (
-                question,
-                doc["chunk_text"],
-            )
+            (question, doc["chunk_text"])
             for doc in docs
         ]
 
-        scores = self.model.predict(pairs)
+        scores = self._get_model().predict(pairs)
 
         for doc, score in zip(docs, scores):
             doc["rerank_score"] = float(score)
