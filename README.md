@@ -166,16 +166,4 @@ docker compose down
 -   Verify `GEMINI_API_KEY` in `.env`.
 -   Ensure the API key is active.
 
-## License
 
-MIT License
-
-## Author
-
-**Priyam Kumar Sahu**
-
-Final Year B.Tech (CSE/CSIT)
-
-------------------------------------------------------------------------
-
-If you found this project useful, consider giving it a ⭐ on GitHub.
